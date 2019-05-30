@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/eng-about.css">
+    <title>Welcome to Fix-it Engineers</title>
+</head>
+<body>
+    {{>nav-eng}}
+    <div class="backdrop">
+        <h2 class="intro">Fix-it Engineers</h2>
+        <br><br>
+        <div class="buttons">
+            <button class="button" id="login">Log In</button>
+            <button class="button" id="signup">Sign Up</button>
+        </div>
+    </div>
+    <div class="main">
+        <section>
+            <article>
+                <h3>About Fix-it Engineers</h3>
+                At the heart of every great project are people working to make a difference.
+                <br><br>
+                For us at Fix-it, those people are our Engineers. Fix-it Engineers are trained professionals in their various fields
+                working to make Fix-it what it is.
+                <br><br>
+                To become a Fix-it Engineer, the only requirement other than having an active phone number and email address, is that
+                you must be certified by a Trade Union.
+                <br><br>
+                If you're ready to begin partnering with us as an Engineer, <a href="/engineers/signup">create an Account</a>.
+                <br><br>
+                We look forward to working with you.
+            </article>
+        </section>
+    </div>
+    {{>footer}}
+    <script>
+        document.getElementById('login').addEventListener('click', (event)=>{
+            location.assign('/engineers/signin');
+        });
+        document.getElementById('signup').addEventListener('click', (event)=>{
+            location.assign('/engineers/signup');
+        });
+    </script>
+</body>
+</html>

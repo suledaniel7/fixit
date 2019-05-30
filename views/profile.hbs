@@ -1,0 +1,113 @@
+<head>
+    <title>{{f_name}}'s Profile</title>
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+    {{!-- <img src="/{{avatar}}" alt="{{f_name}}'s Avatar">
+    <button id="repReq">Create a new Repair Request</button>
+    <script>
+        document.getElementById('repReq').onclick = changeUrl;
+        function changeUrl(){
+            location.assign('/repair-request');
+        }
+    </script> --}}
+    <div class="leftBar">
+        <div class="proPic">
+            <img src="/{{avatar}}" id="avatar" alt="{{f_name}}'s Avatar">
+            <p class="caption">{{f_name}} {{l_name}}</p>
+        </div>
+        <div class="icons">
+            {{!-- <a href="/settings"> --}}<img src="/png/settings-res.png" title="Settings" alt="Settings">{{!-- </a> --}}
+            {{!-- <a href="/notifications"> --}}<img src="/png/notifs.png" title="Notifications" alt="Notifications">{{!-- </a> --}}
+        </div>
+    </div>
+    <div class="centerRight">
+        <div class="sectionHeads">
+            <button id="pendingBtn" class="sectionHead activeBtn">Pending Requests</button>
+            <button id="previousBtn" class="sectionHead">Previous Requests</button>
+        </div>
+        <div class="createReq">
+            <p id="empText"></p><button id="repReqBtn">Create Repair Request</button>
+        </div>
+        <div id="pending" class="pending">
+            {{#each pending}}
+            <section class="repReq">
+                <h4>{{devModel}} | <span class="light">{{status.statText}}</span></h4>
+                <article>
+                    {{details}}
+                </article>
+                <p>{{date_created}} | {{time_created}}</p>
+            </section>
+            {{/each}}
+        </div>
+        <div id="previous" class="previous hidden">
+            {{#each previous}}
+            <section class="repReq">
+                <h4>{{devModel}}</h4>
+                <article>
+                    {{details}}
+                </article>
+                <p>{{date_created}} | {{time_created}}</p>
+            </section>
+            {{/each}}
+        </div>
+        {{>footer-lgn}}
+    </div>
+    <script>
+        var reqs = document.getElementById('pending').childElementCount;
+        if(reqs === 1){
+            document.getElementsByTagName('footer')[0].classList += ' bottom';
+        }
+        else if(reqs === 0){
+            document.getElementsByTagName('footer')[0].classList += ' bottom';
+            document.getElementById('empText').textContent = 'You have no Pending Requests. Click the button below to begin a new Request'
+        }
+        //to change content on button click
+        document.getElementById('previousBtn').addEventListener('click', ()=>{
+            //when previous reqs has been clicked
+            document.getElementById('empText').textContent = '';
+            document.getElementById('pending').classList += ' hidden';
+            document.getElementById('previous').classList = 'previous';
+            document.getElementById('pendingBtn').classList = 'sectionHead';
+            document.getElementById('previousBtn').classList += ' activeBtn';
+
+            var reqs = document.getElementById('previous').childElementCount;
+            if(reqs === 1){
+                document.getElementsByTagName('footer')[0].classList += ' bottom';
+            }
+            else if(reqs === 0){
+                document.getElementsByTagName('footer')[0].classList += ' bottom';
+                document.getElementById('empText').textContent = 'You have no Previous Requests. Click the button below to begin a new Request'
+            }
+            else {
+                document.getElementsByTagName('footer')[0].classList = '';
+                document.getElementById('empText').textContent = '';
+            }
+        });
+        document.getElementById('pendingBtn').addEventListener('click', ()=>{
+            //when pending reqs has been clicked
+            document.getElementById('empText').textContent = '';
+            document.getElementById('previous').classList += ' hidden';
+            document.getElementById('pending').classList = 'pending';
+            document.getElementById('previousBtn').classList = 'sectionHead';
+            document.getElementById('pendingBtn').classList += ' activeBtn';
+
+            var reqs = document.getElementById('pending').childElementCount;
+            if(reqs === 1){
+                document.getElementsByTagName('footer')[0].classList += ' bottom';
+            }
+            else if(reqs === 0){
+                document.getElementsByTagName('footer')[0].classList += ' bottom';
+                document.getElementById('empText').textContent = 'You have no Pending Requests. Click the button below to begin a new Request'
+            }
+            else {
+                document.getElementsByTagName('footer')[0].classList = '';
+                document.getElementById('empText').textContent = '';
+            }
+        });
+
+        document.getElementById('repReqBtn').addEventListener('click', ()=>{
+            location.assign('/repair-request');
+        });
+    </script>
+</body>

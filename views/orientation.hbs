@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/rep-req.css">
+    <title>Engineer Orientation</title>
+</head>
+<body>
+    <h2 class="center">Here are a few things worth noting</h2>
+    <section class="main">
+        <h3>Certification</h3>
+        <article>
+            <h4>You must be Certified under a Trade Union to work as a Fix-it Engineer</h4>
+            <p>
+                <p>Every Fix-it Engineer has to be registered under a Trade Union</p><br>
+                <p>We do not impose any additional restrictions to what was specified when you joined the Trade Union</p><br>
+                <p>This is to, first of all know that you are who you say you are; and to have the Trade Union be held as your Guarantor</p><br>
+                <p>Your Account remains unverified as long as we've not heard back from your Trade Union.</p><br>
+                <p>Only Verified Engineers can get Projects assigned to them</p><br>
+            </p>
+        </article>
+    </section>
+    <section class="main hidden">
+        <h3>Reviews</h3>
+        <article>
+            <h4>Your Account is graded based on Reviews</h4>
+            <p>
+                As a Fix-it Engineer, we'd expect you to give your best to every Project assigned to you.
+                <br><br><br>
+                And because our clients expect no less, we assign projects to Engineers based on their review score.
+                <br><br><br>
+                Right now, as you will see on your profile page, your Review Score or Rating is 5.0... the highest score possible
+                <br><br><br>
+                Upon completion of a Project, we'd ask the client to give a review of the work done.
+                <br><br><br>
+                That client's score along with your previous Rating average to your new Rating
+                <br><br><br>
+                Only Engineers with a Rating greater than 3.99 get Projects assigned to them.
+            </p>
+        </article>
+    </section>
+    <section class="main hidden">
+        <h3>Project Pickup</h3>
+        <article>
+            <h4>You come to Fix-it Headquarters to Pick up the Project</h4>
+            <p>
+                <p>Upon being selected to work on a Project, you come to our Headquarters to pick it up</p>
+                <p>On your Profile Page, you can see the status of your Pending Projects along with our in-house Expert's analysis</p>
+                <p>At Fix-it Headquarters, you'll be required to accept our terms and conditions before picking up a Project</p>
+                <p>These include your due date fixed by our in-house Experts</p>
+                <p>As well as the Experts' proposed cost of working on the Project which you can negotiate with them</p>
+                <p>If for some reason you cannot meet the due date, talk with our Experts explaining your reason</p>
+                <p>If you miss your due date, your Rating goes down by a point</p>
+            </p>
+        </article>
+    </section>
+    <section class="main hidden">
+        <h3>Payment</h3>
+        <article>
+            <h4>Last of all</h4>
+            <p>You get paid after the client has rated the work you did</p><br>
+            <p>Your payment is done independent of the Rating you get</p><br><br>
+            <p>For further enquries, do not hesitate to <a href="mailto:admin@fixit.com">contact us</a></p><br>
+            <p>Welcome on Board {{f_name}}!</p>
+        </article>
+    </section>
+
+    <div class="buttons">
+        <span class="hidden" id="prevSpan"><button id="prev">Previous</button></span>
+        <span id="nextSpan"><button id="next">Next</button></span>
+        <span class="hidden" id="submit"><button type="submit" onclick="loadProfile();">Go to Profile</button></span>
+    </div>
+    <br><br>
+    {{>footer}}
+    <script>
+        var current = 0;
+        var steps = document.getElementsByClassName('main');
+        var last = steps.length - 1;
+
+        document.getElementById('prev').addEventListener('click', (event)=>{
+            //previous button was clicked
+            /* reveals next when clicked at last, hides itself, when clicked to 0 */
+            if(current === last){
+                document.getElementById('nextSpan').classList = '';
+            }
+            if(current !== 0){
+                steps[current].classList += ' hidden';
+                current--;
+                steps[current].classList = 'main';
+                if(current === 0){
+                    document.getElementById('prevSpan').classList += ' hidden';
+                }
+            }
+            document.getElementById('submit').classList += ' hidden';
+        });
+        document.getElementById('next').addEventListener('click', (event)=>{
+            //next button was clicked
+            document.getElementById('prevSpan').classList = '';
+            if(current !== last){
+                steps[current].classList += ' hidden';
+                current++;
+                steps[current].classList = 'main';
+                if(current === last){
+                    document.getElementById('nextSpan').classList += ' hidden';
+                    document.getElementById('submit').classList = '';
+                }
+            }
+        });
+
+        function loadProfile(){
+            location.assign('/engineers/profile');
+        }
+    </script>
+</body>
+</html>

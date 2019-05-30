@@ -1,0 +1,127 @@
+<head>
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/css/signup.css">
+</head>
+<body>
+    {{>navigation}}
+    <form action="/signup" onsubmit="return validate();" method="post" enctype="multipart/form-data">
+        <h2>Sign Up for a Fix-it Account</h2>
+        <h4 id="errorDiv">{{error}}</h4>
+        <input type="text" name="f_name" id="fName" placeholder="Enter your First Name (required)"><br><br>
+        <input type="text" name="l_name" id="lName" placeholder="Enter your Last Name (required)"><br><br>
+        <input type="email" name="email" id="email" placeholder="Enter your Email Address (required)"><br><br>
+        <input type="password" name="password" id="password" placeholder="Create a password (required)"><br><br>
+        <input type="password" id="password1" placeholder="Confirm your password (required)"><br><br>
+        <input type="text" name="phone" id="phone" placeholder="Enter your Phone Number (required)"><br><br>
+        <textarea name="address" maxlength="300" id="address" placeholder="Enter your home address"></textarea>
+        <p>Select your Gender (required)</p>
+        <select name="gender" id="gender">
+            <option value="F">Female</option>
+            <option value="M">Male</option>
+        </select>
+        <p>Upload a Profile Photo</p>
+        <input type="file" name="picture" id="picture"><br><br>
+        <button class="button" type="submit">Create Account</button>
+        <p>Already have an Account? <a href="/signin">Log in</a></p>
+    </form>
+    {{>footer}}
+    <script>
+        function validate(){
+            let fName = document.getElementById('fName').value,
+            lName = document.getElementById('lName').value,
+            email = document.getElementById('email').value,
+            password = document.getElementById('password').value,
+            password1 = document.getElementById('password1').value,
+            phone = document.getElementById('phone').value,
+            wsp = /^\s*$/,
+            validPhone = /^\+{1}(\d){13,14}$|^(\d){11}$/,
+            validEmail = /^([a-zA-Z_]+[\w]*[0-9]*){3,}@{1}([a-zA-Z]+[0-9]*){1,}\.{1}[a-z]{2,}$/;
+
+            let empty_fields = new Array;
+            if(wsp.test(fName)){
+                empty_fields.push('First Name');
+            }
+            if(wsp.test(lName)){
+                empty_fields.push(' Last Name');
+            }
+            if(wsp.test(email)){
+                empty_fields.push(' Email Address');
+            }
+            if(wsp.test(password)){
+                empty_fields.push(' Password');
+            }
+            if(wsp.test(password1)){
+                empty_fields.push(' Confirm Password');
+            }
+            if(wsp.test(phone)){
+                empty_fields.push(' Phone Number');
+            }
+            //checked for whitespace
+            //now to check for validity of email address and phone number
+            let invalid_fields = new Array;
+            if(!validEmail.test(email)){
+                invalid_fields.push('Email Address');
+            }
+            if(!validPhone.test(phone)){
+                invalid_fields.push(' Phone Number');
+            }
+            //now to ensure that passwords match
+            let passwordErr = false;
+            if(password !== password1){
+                passwordErr = true;
+            }
+
+            //now to collate and parse errors
+            let errors = new Array;
+            if(empty_fields.length !== 0){
+                //there are empty fields
+                if(empty_fields.length === 1){
+                    var err = "The field: " + empty_fields[0] + ", is empty";
+                }
+                else {
+                    var err = "Please fill out the following fields: " + empty_fields;
+                }
+                errors.push(err);
+                
+            }
+            if(invalid_fields.length !== 0){
+                //there are invalid fields
+                if(invalid_fields.length === 1){
+                    var err = "The field: " + invalid_fields[0] + ", does not contain valid data";
+                }
+                else {
+                    var err = "The following fields contain invalid data: " + invalid_fields;
+                }
+                errors.push(err);
+            }
+            if(passwordErr){
+                //the passwords do not match
+                errors.push("The passwords entered in the fields provided do not match");
+            }
+
+            var valid = false;
+            if(errors.length === 0){
+                document.getElementById('errorDiv').textContent = '';
+                valid = true;
+            }
+            else {
+                document.getElementById('errorDiv').textContent = '';
+                if(errors.length === 1){
+                    let node = document.createElement('div');
+                    document.getElementById('errorDiv').appendChild(node).textContent = errors[0];
+                }
+                else {
+                    errors.forEach((error)=>{
+                        let node = document.createElement('div');
+                        document.getElementById('errorDiv').appendChild(node).textContent = error;
+                    });
+                }
+                setTimeout(()=>{
+                    document.getElementById('errorDiv').textContent = '';
+                }, 10000);
+            }
+
+            return valid;
+        }
+    </script>
+</body>

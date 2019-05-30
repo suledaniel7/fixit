@@ -1,0 +1,19 @@
+.sectionHeads {
+    text-align: center;
+    color: gray;
+}
+
+#statDiv {
+    text-align: center;
+    color: gray;
+    font-size: large;
+}
+
+.rating {
+    width: 55%;
+    text-align: center;
+    border: 2px solid black;
+    margin: 0 auto;
+    padding: 10%;
+    font-size: 4em;
+}

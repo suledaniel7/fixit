@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Repair Request</title>
+    <link rel="stylesheet" href="/css/rep-req.css">
+</head>
+<body>
+    <div class="cats">
+        <button id="catLinks" onclick="skip(0);" class="cat active">Device Details</button>
+        <button id="catLinks" onclick="skip(1);" class="cat">Issues</button>
+        <button id="catLinks" onclick="skip(2);" class="cat">Pickup &amp; Delivery</button>
+    </div>
+    <form action="/rep-req" id="form" enctype="multipart/form-data" method="post">
+        <article id="errorDiv">{{error}}</article>
+        <section class="main">
+            <h3>What do you want Fixed?</h3>
+            <article>
+                <h4>Step 1: Select your Device name and model</h4>
+                {{#devices}}
+                <select name="deviceName" onchange="show(this.selectedIndex);" id="devices">
+                    {{#each names}}
+                    <option value="{{name}}">{{name}}</option>
+                    {{/each}}
+                </select>
+                {{#each models as |model|}}
+                <select name="models" class="models hidden" id="models">
+                    {{#each model as |name|}}
+                    <option value="{{name}}">{{name}}</option>
+                    {{/each}}
+                </select>
+                {{/each}}
+                {{/devices}}
+                <p class="hint">Not sure of your Device model? Type what you think it is below, and do a Google Image Search for <span><a href="/" id="fillLink" target="_blank"></a></span></p>
+                <input oninput="fillFn();" type="text" name="devModel" id="devModel" placeholder="E.g.: Samsung Galaxy Note 8"><br><br>
+                <br>
+            </article>
+        </section>
+        <section class="main hidden">
+            <h3>Describe your Device's issue</h3>
+            <article id="textarea">
+                <h4>Step 2: Give a detailed explanation of what's wrong with the Device. Attach pictures below if they help explain your point</h4>
+                <textarea name="details" id="details" class="textarea"></textarea>
+                <input type="file" name="pictures" multiple="true" accept=".jpg, .png, .gif" id="pics">
+                <h4>Step 3: How long has it had this issue for?</h4>
+                <select name="duration" id="duration">
+                    <option value="lt1">Less Than 1 Week</option>
+                    <option value="1t4">1 to 4 Weeks</option>
+                    <option value="mt5">1 to 5 Months</option>
+                    <option value="gt5">More than 5 Months</option>
+                </select>
+            </article>
+        </section>
+        <section class="main hidden">
+            <h3>Pickup and Delivery Details</h3>
+            <article>
+                <h4>Step 4: How can we reach you?</h4>
+                <p>Enter your Pickup Address <input type="text" name="pickup" value="{{address}}" id="pickup"></p>
+                <p>Enter your Delivery Address <input type="text" name="delivery" value="{{address}}" id="delivery"></p>
+                <p>What is your preferred means of communication?
+                    <br><br>
+                    <input type="radio" name="comms" value="ph" id="comms">Phone Calls*
+                    <input type="radio" name="comms" value="tm" id="comms">Text Messages*
+                    <input type="radio" name="comms" value="em" id="comms">Email
+                </p>
+                <p><input type="email" name="email" placeholder="Email Address" value="{{email}}" class="half" id="email"> <input type="text" name="phone" placeholder="Phone Number" value="{{phone}}" class="half" id="phone"></p>
+                <p class="small">*Please note that you will be charged a fee for SMS and phone calls</p>
+            </article>
+        </section>
+        <section class="main hidden">
+            <h3>Final Step</h3>
+            <article>
+                <h4>Step 5: Choose your means of Identification</h4>
+                <p>
+                    A few things to note: First of all, the ID means you select will be used for your verification
+                    when we come to pick up and to deliver your Device. The name entered below must match letter for letter,
+                    the name on the ID. Secondly, your signature at pickup is required to match your signature at delivery.
+                </p>
+                <p>
+                    Means of ID: <select name="idMeans" id="idMeans">
+                        <option value="natID">National ID Card</option>
+                        <option value="itP">International Passport</option>
+                        <option value="vtC">Voter's Card</option>
+                        <option value="schId">School ID Card</option>
+                        <option value="other">Other</option>
+                    </select>
+                </p>
+                <p>If you selected 'Other' above, specify what form of ID you're using: <input type="text" name="idOther" id="idOther"></p>
+                <p>What is the name on the ID Card? <input type="text" name="nameID" id="nameID"></p>
+            </article>
+        </section>
+    </form>
+    <div class="buttons">
+        <span class="hidden" id="prevSpan"><button id="prev">Previous</button></span>
+        <span id="nextSpan"><button id="next">Next</button></span>
+        <span class="hidden" id="submit"><button type="submit" onclick="submitForm();">Submit Request</button></span>
+    </div>
+
+    <div id="back">
+        <a href="/profile">Back to Profile Page</a>
+    </div>
+
+    <script>
+        document.getElementsByClassName('models')[0].classList = 'models';
+        function fillFn(){
+            var filler = document.getElementById('devModel').value;
+            var fillerArr = filler.split(' ');
+            var fillRep = fillerArr.join('+');
+            document.getElementById('fillLink').textContent = filler;
+            document.getElementById('fillLink').setAttribute('href', 'https://www.google.com/search?tbm=isch&q='+fillRep);
+        }
+        var current = 0;
+        var steps = document.getElementsByClassName('main');
+        var last = steps.length - 1;
+
+        var cats = document.getElementsByClassName('cat');
+
+        document.getElementById('prev').addEventListener('click', (event)=>{
+            //previous button was clicked
+            /* reveals next when clicked at last, hides itself, when clicked to 0 */
+            if(current === last){
+                document.getElementById('nextSpan').classList = '';
+            }
+            if(current !== 0){
+                steps[current].classList += ' hidden';
+                current--;
+                steps[current].classList = 'main';
+                if(current === 0){
+                    document.getElementById('prevSpan').classList += ' hidden';
+                }
+            }
+            document.getElementById('submit').classList += ' hidden';
+            catCheck();
+        });
+        document.getElementById('next').addEventListener('click', (event)=>{
+            //next button was clicked
+            document.getElementById('prevSpan').classList = '';
+            if(current !== last){
+                steps[current].classList += ' hidden';
+                current++;
+                steps[current].classList = 'main';
+                if(current === last){
+                    document.getElementById('nextSpan').classList += ' hidden';
+                    document.getElementById('submit').classList = '';
+                }
+            }
+            catCheck();
+        });
+
+        //default set underline to first
+
+        function catCheck(){
+            if(current === 0){
+                //underline first
+                cats[0].classList += ' active';
+                cats[1].classList = 'cat';
+                cats[2].classList = 'cat';
+            }
+            else if(current === 1){
+                //underline second
+                cats[1].classList += ' active';
+                cats[0].classList = 'cat';
+                cats[2].classList = 'cat';
+            }
+            else {
+                //underline third
+                cats[2].classList += ' active';
+                cats[0].classList = 'cat';
+                cats[1].classList = 'cat';
+            }
+        }
+
+        function skip(num){
+            num = parseInt(num);
+            steps[current].classList += ' hidden';
+            current = num;
+            steps[current].classList = 'main';
+            if(current>0 && current<last){
+                document.getElementById('prevSpan').classList = '';
+                document.getElementById('nextSpan').classList = '';
+                document.getElementById('submit').classList += ' hidden';
+            }
+            else if(current === last){
+                document.getElementById('prevSpan').classList = '';
+                document.getElementById('nextSpan').classList += ' hidden';
+            }
+            else{
+                document.getElementById('nextSpan').classList = '';
+                document.getElementById('prevSpan').classList += ' hidden';
+                document.getElementById('submit').classList += ' hidden';
+            }
+            catCheck();
+
+        }
+
+        function submitForm(){
+            //first, but really, second, validation, then submission trigger
+            if(validate()){
+                document.getElementById('form').submit();
+            }
+        }
+
+        function validate(){
+            var valid = false;
+
+            var email = document.getElementById('email').value,
+            phone = document.getElementById('phone').value,
+            details = document.getElementById('details').value,
+            pickup = document.getElementById('pickup').value,
+            delivery = document.getElementById('delivery').value,
+            index = document.getElementById('idMeans').selectedIndex,//num 4
+            other = document.getElementById('idOther').value,
+            nameID = document.getElementById('nameID').value;
+
+            var validPhone = /^\+{1}(\d){13,14}$|^(\d){11}$/,
+            validEmail = /^([a-zA-Z_]+[\w]*[0-9]*){3,}@{1}([a-zA-Z]+[0-9]*){1,}\.{1}[a-z]{2,}$/;
+
+            let wsp = /^\s*$/;
+
+            function clearErr(){
+                setTimeout(()=>{
+                    document.getElementById('errorDiv').textContent = '';
+                }, 5000);
+            }
+            function setErr(err){
+                document.getElementById('errorDiv').textContent = err;
+            }
+            //test each individually
+
+            //test radios
+            function testRads(){
+                var comms = document.getElementsByName('comms');
+                let validity = false;
+                for(let i=0; i< comms.length; i++){
+                    if(comms[i].checked){
+                        validity = true;
+                    }
+                }
+                return validity;
+            }
+
+            if(wsp.test(details)){
+                var err = "Please enter what is wrong with your Device";
+                skip(1);
+                setErr(err);
+                clearErr();
+            }
+            else if(wsp.test(pickup)){
+                var err = "Please enter your Pickup Address";
+                skip(2);
+                setErr(err);
+                clearErr();
+            }
+            else if(wsp.test(delivery)){
+                var err = "Please enter your Delivery Address";
+                skip(2);
+                setErr(err);
+                clearErr();
+            }
+            else if(!testRads()){
+                var err = "Please select a means of communication";
+                skip(2);
+                setErr(err);
+                clearErr();
+            }
+            else if(wsp.test(email)){
+                var err = "Please enter your email address";
+                skip(2);
+                setErr(err);
+                clearErr();
+            }
+            else if (!validEmail.test(email)){
+                var err = "Please enter a valid email address";
+                skip(2);
+                setErr(err);
+                clearErr();
+            }
+            else if (wsp.test(phone)){
+                var err = "Please enter your phone number";
+                skip(2);
+                setErr(err);
+                clearErr();
+            }
+            else if (!validPhone.test(phone)){
+                var err = "Please enter a valid phone number";
+                skip(2);
+                setErr(err);
+                clearErr();
+            }
+            else if(index === 4 && wsp.test(other)){
+                var err = "Please select a valid ID means";
+                setErr(err);
+                clearErr();
+            }
+            else if(wsp.test(nameID)){
+                var err = "Please enter the name on your ID";
+                setErr(err);
+                clearErr();
+            }
+            else {
+                valid = true;
+            }
+            return valid;
+        }
+        function show(param){
+            let models = document.getElementsByClassName('models');
+            let index = models.length;
+            for(let i=0; i<index; i++){
+                models[i].classList = 'models hidden';
+            }
+            models[param].classList = 'models';
+        }
+    </script>
+</body>
+</html>

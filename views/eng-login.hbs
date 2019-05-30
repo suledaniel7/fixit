@@ -1,0 +1,56 @@
+<head>
+    <title>Sign In</title>
+    <link rel="stylesheet" href="/css/signup.css">
+    <style>
+        footer {
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    {{>navigation}}
+    <form action="/engineers/signin" onsubmit="return validate();" method="post">
+        <h2>Sign In to your Fix-it Engineer Account</h2>
+        <h4 id="errorDiv">{{error}}</h4>
+        <input type="email" name="email" id="email" placeholder="Enter your Email Address"><br><br>
+        <input type="password" name="password" id="password" placeholder="Enter your Password"><br><br>
+        <button type="submit" class="button">Sign In</button>
+        <p>Don't have an Account? <a href="/engineers/signup">Create One</a></p>
+    </form>
+    {{>footer}}
+    <script>
+            function validate(){
+                document.getElementById('errorDiv').textContent = '';
+
+                let email = document.getElementById('email').value,
+                password = document.getElementById('password').value,
+                wsp = /^\s*$/,
+                validEmail = /^([a-zA-Z_]+[\w]*[0-9]*){3,}@{1}([a-zA-Z]+[0-9]*){1,}\.{1}[a-z]{2,}$/;
+                
+                var valid = false;
+
+                if(wsp.test(email) || wsp.test(password)){
+                    let node = document.createElement('div');
+                    document.getElementById('errorDiv').appendChild(node).textContent = "All fields are required";
+                    setTimeout(()=>{
+                        document.getElementById('errorDiv').textContent = '';
+                    }, 20000);
+                }
+                else if(!validEmail.test(email)){
+                    let node = document.createElement('div');
+                    document.getElementById('errorDiv').appendChild(node).textContent = "Please enter a valid email address";
+                    setTimeout(()=>{
+                        document.getElementById('errorDiv').textContent = '';
+                    }, 20000);
+                }
+                else {
+                    valid = true;
+                }
+
+                return valid;
+            }
+    </script>
+</body>

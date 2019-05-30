@@ -1,0 +1,96 @@
+<head>
+    <title>How it Works</title>
+    <link rel="stylesheet" href="/css/default.css">
+    <link rel="stylesheet" href="css/hiw.css">
+</head>
+<body>
+    {{>navigation}}
+    <br>
+    <h3>Here's How it Works</h3>
+    <div class="tracker">Step <span id="num">1</span> of 5</div>
+    <article class="step">
+        <h4>Step One: Create a Fix-it Account</h4>
+        First off, you <a href="/signup">create an Account</a>. We only require the most basic information from you at this stage.
+    </article>
+    <article class="step hidden">
+        <h4>Step Two: Create a Repair Request</h4>
+        Next up, you create a Repair Request. The Request contains all the details about
+        the problem you're facing, you may attach pictures, cumulatively less than 2MB to
+        your Request. We encourage you to be as concise as possible so it helps our
+        engineers figure out your problem faster
+    </article>
+    <article class="step hidden">
+        <h4>Step Three: Pickup</h4>
+        We acknowledge receipt of your Request and contact you to know when you'll be
+        available for us to pick up your broken device.
+    </article>
+    <article class="step hidden">
+        <h4>Step Four: Analysis/Repair</h4>
+        After we've picked up your device, we'll examine it and give you a cost estimate.
+        As soon as you've accepted our terms, they aren't many... we promise, we'll get started
+        on fixing your device right away
+    </article>
+    <article class="step hidden">
+        <h4>Step Five: Delivery</h4>
+        We'll notify you when your device is fixed so we can come and deliver it to you.
+    </article>
+    <div class="buttons">
+        <button id="prev" disabled="disabled" class="button">Previous</button>
+        <button id="next" class="button">Next</button>
+    </div>
+    {{>footer}}
+    <script>
+        var current = 0;
+        var loc = 1;
+        var step = 1;
+        let steps = document.getElementsByClassName('step');
+        let last = steps.length - 1;
+
+        document.getElementById('prev').addEventListener('click', (event)=>{
+            loc--;
+            if(current !== 0){
+                steps[current].classList += ' hidden';
+                current--;
+                step--;
+                steps[current].classList = 'step';
+                document.getElementById('num').textContent = step;
+            }
+            else {
+                document.getElementById('prev').setAttribute('disabled', 'disabled');
+            }
+            document.getElementById('next').removeAttribute('disabled');
+
+            if(loc === 1){
+                document.getElementById('prev').setAttribute('disabled', 'disabled');
+            }
+            else {
+                document.getElementById('prev').removeAttribute('disabled');
+                {{!-- loc--; --}}
+            }
+        });
+        document.getElementById('next').addEventListener('click', (event) =>{
+            loc++;
+            if(current !== last){
+                steps[current].classList += ' hidden';
+                current++;
+                step++;
+                steps[current].classList = 'step';
+                document.getElementById('num').textContent = step;
+            }
+            else {
+                document.getElementById('next').setAttribute('disabled', 'disabled');
+            }
+            document.getElementById('prev').removeAttribute('disabled');
+            if(loc === last+1){
+                document.getElementById('next').setAttribute('disabled', 'disabled');
+            }
+            else if(loc === 1){
+                document.getElementById('prev').setAttribute('disabled', 'disabled');
+            }
+            else {
+                document.getElementById('prev').removeAttribute('disabled');
+                {{!-- loc++; --}}
+            }
+        })
+    </script>
+</body>

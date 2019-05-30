@@ -1,0 +1,92 @@
+<head>
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/css/signup.css">
+</head>
+<body>
+    {{>navigation}}
+    <form action="/engineers/signup" onsubmit="return validate();" class="wider" method="post" enctype="multipart/form-data">
+        <h2>Sign Up for a Fix-it Engineer Account</h2>
+        <h4 id="errorDiv">{{error}}</h4>
+        <input type="text" name="f_name" id="fName" required="required" placeholder="Enter your First Name"><br><br>
+        <input type="text" name="l_name" id="lName" required="required" placeholder="Enter your Last Name"><br><br>
+        <input type="email" name="email" id="email" required="required" placeholder="Enter your Email Address"><br><br>
+        <input type="text" name="phone" id="phone" required="required" placeholder="Enter your Phone Number"><br><br>
+        <input type="password" name="password" id="password" required="required" placeholder="Create a password"><br><br>
+        <input type="password" id="password1" required="required" placeholder="Confirm your password"><br><br>
+        {{!-- <p id="specWidth">Enter below a list of the items you repair beginning with your specialties. Try to be as specific as possible
+            in terms of brand and model names.
+        </p><br> --}}
+        {{!-- <p id="specWidth" class="bold">
+            Enter below the names and models of the devices you repair separating name from model by colons(:), models by commas(,) and devices by semicolons(;) <br>
+            E.g."Samsung: Galaxy Note 3, Galaxy Note 4, Galaxy S8; HP: Envy 15, Omen 17"
+        </p><br> --}}
+        <div class="tip"><br>
+            <textarea name="trade" id="trade" required="required" placeholder="What devices do you repair?"></textarea><br><br>
+        </div>
+        
+        {{!-- <input type="text" name="trade" id="trade" required="required" placeholder="What devices do you repair?"><br><br> --}}
+        <input type="text" name="trUnion" id="trUnion" required="required" placeholder="What Trade Union do you belong to?"><br><br>
+        <p id="specWidth">Provide a phone number or email address we can use to contact your Trade Union</p><br>
+        <input type="text" name="contactUnion" id="contactUnion" required="required" placeholder="Trade Union contact info"><br><br>
+        <p>Upload a Profile Photo</p>
+        <input type="file" name="picture" id="picture"><br><br>
+        
+        <button class="button" type="submit">Create Account</button>
+        <p>Already have an Engineer Account? <a href="/engineers/signin">Log in</a></p>
+    </form>
+    {{>footer}}
+    <script>
+        function validate(){
+            document.getElementById('errorDiv').textContent = '';
+
+            var phOrEm = document.getElementById('contactUnion').value;
+            let digit = /\d/;
+            var fChar = phOrEm[0];
+            var pWord = document.getElementById('password').value;
+            var pWord1 = document.getElementById('password1').value;
+            if(digit.test(fChar)){
+                //validate phone number
+                let validPhone = /^\+{1}(\d){13,14}$|^(\d){11}$/;
+                if(!validPhone.test(phOrEm)){
+                    document.getElementById('errorDiv').textContent = "The Trade Union Phone Number entered is not valid";
+                    clearErr();
+                    return false;
+                }
+                else {
+                    if(pWord !== pWord1){
+                        document.getElementById('errorDiv').textContent = "Your passwords do not match";
+                        clearErr();
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+            }
+            else {
+                //validate email
+                let validEmail = /^([a-zA-Z_]+[\w]*[0-9]*){3,}@{1}([a-zA-Z]+[0-9]*){1,}\.{1}[a-z]{2,}$/;
+                if(!validEmail.test(phOrEm)){
+                    document.getElementById('errorDiv').textContent = "The Trade Union Email Address entered is not valid";
+                    clearErr();
+                    return false;
+                }
+                else {
+                    if(pWord !== pWord1){
+                        document.getElementById('errorDiv').textContent = "Your passwords do not match";
+                        clearErr();
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+            }
+        }
+        function clearErr(){
+            setTimeout(()=>{
+                document.getElementById('errorDiv').textContent = '';
+            }, 5000);
+        }
+    </script>
+</body>

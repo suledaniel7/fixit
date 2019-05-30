@@ -1,0 +1,164 @@
+body {
+    margin: 0;
+    background-color: #D9D9D9;
+    font-family: sans-serif;
+}
+
+.cats {
+    text-align: center;
+    background-color: white;
+    padding: 10px;
+}
+
+.cat {
+    padding-right: 2.5%;
+    padding-left: 2.5%;
+    padding-bottom: 0.25%;
+    margin: 5px;
+    border-bottom: none;
+}
+
+#catLinks {
+    height: 2em;
+    background-color: transparent;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    padding-top: 5px;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+}
+
+#catLinks:hover {
+    color: black;
+    background-color: #D9D9D9;
+}
+
+#catLinks:focus {
+    outline: none;
+}
+
+.active {
+    border-bottom: 3px solid #4484CE;
+    transition: all 0.01s;
+}
+
+section {
+    width: 70%;
+    margin: 0 auto;
+    /* border: 2px solid #4484CE; */
+    padding: 20px;
+    background-color: white;
+    height: 400px;
+    margin-top: 0;
+    padding-bottom: 30px;
+}
+
+section h3 {
+    text-align: center;
+}
+
+.center {
+    text-align: center;
+}
+
+input {
+    width: 95%;
+    height: 2em;
+    padding: 5px;
+}
+
+.half {
+    width: 47%;
+}
+
+input:focus, textarea:focus{
+    outline: none;
+}
+
+#textarea {
+    text-align: center;
+}
+
+#textarea p, #pics {
+    text-align: left;
+    margin-left: 5%;
+}
+
+textarea {
+    width: 90%;
+    max-width: 90%;
+    min-width: 90%;
+    height: 10em;
+    max-height: 10em;
+    min-height: 10em;
+    padding: 5px;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+select {
+    height: 2em;
+}
+
+#models, #devices {
+    width: 40%;
+    margin-right: 20px;
+    height: 3em;
+}
+
+#comms {
+    width: 20px;
+    height: 1em;
+}
+
+.buttons {
+    text-align: center;
+}
+
+.buttons button {
+    margin: 20px;
+    display: inline-block;
+    border-radius: 4px;
+    background-color: transparent;
+    border: none;
+    text-align: center;
+    width: 150px;
+    cursor: pointer;
+    padding: 5px;
+    font-weight: bold;
+    border: 3px solid #4484CE;
+}
+
+button:hover {
+    background-color:  #4484CE;
+    color: white;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.small {
+    font-size: smaller;
+}
+
+#errorDiv {
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 20px;
+    background-color: white;
+    padding: 20px;
+    text-align: center;
+    color: red;
+}
+
+#back a{
+    color: grey;
+}
+
+footer {
+    text-align: center;
+}

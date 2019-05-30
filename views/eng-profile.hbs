@@ -1,0 +1,55 @@
+<head>
+    <title>{{f_name}}'s Profile</title>
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/eng-profile.css">
+</head>
+<body>
+    <div class="leftBar">
+        <div class="proPic">
+            <img src="/{{avatar}}" id="avatar" alt="{{f_name}}'s Avatar">
+            <p class="caption">{{f_name}} {{l_name}}</p>
+            <p class="light">{{ver_stat}}</p>
+        </div>
+        <div class="icons">
+            {{!-- <a href="/settings"> --}}<img src="/png/settings-res.png" title="Settings" alt="Settings">{{!-- </a> --}}
+            {{!-- <a href="/notifications"> --}}<img src="/png/notifs.png" title="Notifications" alt="Notifications">{{!-- </a> --}}
+        </div>
+        <p>Your Rating</p>
+        <div class="rating">
+            {{rating}}
+        </div>
+        <div>
+            <p><a href="/engineers/previous">View Previous Projects</a></p>
+        </div>
+    </div>
+    <div class="centerRight">
+        <div class="sectionHeads">
+            <h3>Pending Projects</h3>
+        </div>
+        <div id="statDiv"></div>
+        <div id="pending" class="pending">
+            {{#each pending}}
+            <section class="repReq">
+                <h4>{{devModel}}</h4>
+                <article>
+                    <h5>User's Problem:</h5>
+                    <div>{{details}}</div>
+                    <h5>Expert Opinion:</h5>
+                    <div>{{analysis}}</div>
+                </article>
+                <p>Due on {{due_date}}</p>
+            </section>
+            {{/each}}
+        </div>
+        {{>footer-lgn}}
+    </div>
+    <script>
+        var numPending = document.getElementById('pending').childElementCount;
+        if(numPending === 0){
+            document.getElementById('statDiv').textContent = 'You have no pending Projects';
+        }
+        if(numPending < 2){
+            document.getElementsByTagName('footer')[0].classList += ' bottom';
+        }
+    </script>
+</body>

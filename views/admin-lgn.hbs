@@ -1,0 +1,46 @@
+<head>
+    <title>Sign In</title>
+    <link rel="stylesheet" href="/css/signup.css">
+    <style>
+        footer {
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <form action="/admin" onsubmit="return validate();" method="post">
+        <h2>Fix-it Administrator Log in</h2>
+        <h4 id="errorDiv">{{error}}</h4>
+        <input type="text" name="username" id="email" placeholder="Enter your Username"><br><br>
+        <input type="password" name="password" id="password" placeholder="Enter your Password"><br><br>
+        <button type="submit" class="button">Sign In</button>
+    </form>
+    {{>footer}}
+    <script>
+            function validate(){
+                document.getElementById('errorDiv').textContent = '';
+
+                let email = document.getElementById('email').value,
+                password = document.getElementById('password').value,
+                wsp = /^\s*$/;
+                
+                var valid = false;
+
+                if(wsp.test(email) || wsp.test(password)){
+                    let node = document.createElement('div');
+                    document.getElementById('errorDiv').appendChild(node).textContent = "All fields are required";
+                    setTimeout(()=>{
+                        document.getElementById('errorDiv').textContent = '';
+                    }, 20000);
+                }
+                else {
+                    valid = true;
+                }
+
+                return valid;
+            }
+    </script>
+</body>

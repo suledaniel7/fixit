@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/admin.css">
+    <title>Fix-it Administrator</title>
+</head>
+<body>
+    <div class="tabs">
+        <button class="tabBtn" id="requestsBtn">Requests (<span id="rBadge"></span>)</button>
+        <button class="tabBtn" id="engineersBtn">Engineers (<span id="eBadge"></span>)</button>
+    </div>
+    <br>
+    <p class="empSect" id="empty"></p>
+    <section class="main" id="requests">
+        {{#each reqs}}
+        <article>    
+            <h3><a href="/admin/process-req/{{_id}}">{{creatorName}}</a></h3>
+            <p><span class="heading">Device Model:</span> {{devModel}}</p>
+            <p><span class="heading">Details:</span> {{details}}</p>
+            <p><span class="heading">Broken for:</span> {{duration}}</p>
+            <p><span class="heading">Attached images:</span> <p>
+                {{#each photos as |photo|}}
+                <img src="/{{photo}}">
+                {{/each}}
+            </p></p>
+            <p><span class="heading">Pickup Location:</span> {{pickup}}</p>
+            <p><span class="heading">Delivery Location:</span> {{delivery}}</p>
+            <p><span class="heading">Preferred communications means:</span> {{commsExp}}</p>
+            <p><span class="heading">Means of ID:</span> {{idMeans}}</p>
+            <p><span class="heading">Name on ID:</span> {{nameID}}</p>
+            <p><span class="heading">Created on:</span> {{date_created}}</p>
+        </article>
+        {{/each}}
+    </section>
+    <br>
+    <section class="main hidden" id="engineers">
+        {{#each engrs}}
+        <article>
+            <h3><a href="/admin/process-eng/{{_id}}">{{f_name}} {{l_name}}</a></h3>
+            <p><span class="heading">Email:</span> {{email}}</p>
+            <p><span class="heading">Phone:</span> {{phone}}</p>
+            <p><span class="heading">Inputed Trade:</span> {{inp_trade}}</p>
+            <p><span class="heading">Union:</span> {{union}}</p>
+            <p><span class="heading">Union Contact Information:</span> {{union_info}}</p>
+            <p><span class="heading">Account Created:</span> {{date_created}}</p>
+        </article>
+        {{/each}}
+    </section>
+    <br>
+    {{>footer}}
+    <script>
+        var num = document.getElementById('requests').childElementCount;
+        if(num < 2){
+            document.getElementsByTagName('footer')[0].classList += ' bottom';
+        }
+
+        var other = document.getElementById('engineers').childElementCount;
+
+        document.getElementById('rBadge').innerText = num;
+        document.getElementById('eBadge').innerText = other;
+
+        if(num === 0){
+            document.getElementById('empty').textContent = 'No Pending Repair Requests';
+        }
+
+        //clicks
+        document.getElementById('requestsBtn').addEventListener('click', ()=>{
+            //requests was clicked
+            document.getElementById('engineers').classList = 'main hidden';
+            document.getElementById('requests').classList = 'main';
+
+            var num = document.getElementById('requests').childElementCount;
+            if(num === 0){
+                document.getElementById('empty').textContent = 'No Pending Repair Requests';
+            }
+            else {
+                document.getElementById('empty').textContent = '';
+            }
+
+            if(num < 2){
+                document.getElementsByTagName('footer')[0].classList += ' bottom';
+            }
+            else {
+                document.getElementsByTagName('footer')[0].classList = '';
+            }
+        });
+
+        document.getElementById('engineersBtn').addEventListener('click', ()=>{
+            //engineers was clicked
+            document.getElementById('requests').classList = 'main hidden';
+            document.getElementById('engineers').classList = 'main';
+
+            var num = document.getElementById('engineers').childElementCount;
+            if(num === 0){
+                document.getElementById('empty').textContent = 'No Pending Engineer Verifications';
+            }
+            else {
+                document.getElementById('empty').textContent = '';
+            }
+
+            if(num < 2){
+                document.getElementsByTagName('footer')[0].classList += ' bottom';
+            }
+            else {
+                document.getElementsByTagName('footer')[0].classList = '';
+            }
+        });
+    </script>
+</body>
+</html>

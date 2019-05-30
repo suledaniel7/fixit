@@ -1,0 +1,74 @@
+<head>
+    <title>Fix-it</title>
+    <link rel="stylesheet" href="css/home.css" type="text/css">
+    {{!-- <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"> --}}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <center>
+        <div id="body">
+            <div id="backdrop">
+                {{>navigation}}
+                {{!-- <br> --}}
+                {{!-- <div class="centerBox">
+                    <br>
+                    <img src="/img/logo-rev.png" id="logo" alt="Fixit Logo">
+                <br>
+                </div> --}}
+                <div id="buttons">
+                    <div id="content">
+                        <h3>Welcome to Fix-it</h3>
+                        <hr>
+                    </div>
+                    <form>
+                        <button class="button" style="vertical-align:middle">Log in</button>
+                        <button class="button" style="vertical-align:middle">Sign up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </center>
+    {{!-- <section class="columns">
+        <div class="column">
+            <h3>Here's what people...</h3>
+            reviews
+        </div>
+        <div class="column" id="midColumn">
+            <h3>What we Do</h3>
+            <article>
+                Here at Fixit, we understand the value that certain objects have to their owners.
+                <br><br>
+                We realise that simply because a phone or laptop is old and a few keys don't work, it doesn't necessarily need to be replaced with a newer model.
+                <br><br>
+                Whether your problem is the money to buy a new item or the sentimental value attached to <em>your</em> device, we're here to help.
+                <br><br>
+                Create an Account, or log in to your Account using the links above and sit back and relax, your device is in safe hands.
+                <br><br>
+                If it's broken, we can fix it....
+            </article>
+        </div>
+        <div class="column">
+            <h3>...are saying about Fixit</h3>
+            reviews
+        </div>
+    </section>
+    <footer>
+        Fixit &copy; 2018
+    </footer> --}}
+    <script>
+        (function(){
+            let btns = document.getElementsByClassName('button');
+            btns[0].addEventListener('click', (event)=>{
+                event.preventDefault();
+                location.assign('/signin');
+            });
+            btns[1].addEventListener('click', (event)=>{
+                event.preventDefault();
+                location.assign('/signup');
+            });
+        })();
+    </script>
+</body>
+
+</html>

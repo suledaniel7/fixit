@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/process.css">
+    <title>Process Request</title>
+</head>
+<body>
+    <div id="main">
+        <form onsubmit="return validate();" action="/admin/assign-eng/{{_id}}" method="post">
+            <h2>Process Repair Request</h2>
+            <div id="errorDiv">{{error}}</div><br>
+            <input type="text" name="device" id="device" value="{{devModel}}" placeholder="Broken Device"><br><br>
+            <input type="text" name="category" id="cat" placeholder="Enter the device category"><br><br>
+            <textarea name="analysis" placeholder="Expert Analysis" id="analysis"></textarea><br><br>
+            <input type="date" name="dueDate" id="dueDate" placeholder="Due Date"><br><br>
+            <button class="button" type="submit">Assign Engineer</button>
+        </form>
+    </div>
+    <script>
+        function validate(){
+            clearErr();
+            var analysis = document.getElementById('analysis').value,
+            cat = document.getElementById('cat').value,
+            device = document.getElementById('device').value,
+            date = document.getElementById('dueDate').value,
+            wsp = /^\s*$/;
+
+            if(wsp.test(device) || wsp.test(cat) || wsp.test(analysis) || wsp.test(date)){
+                document.getElementById('errorDiv').textContent = "All fields are required";
+                clearErr();
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        function clearErr(){
+            setTimeout(()=>{
+                document.getElementById('errorDiv').textContent = '';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

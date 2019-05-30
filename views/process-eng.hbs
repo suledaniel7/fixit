@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/process.css">
+    <title>Verify Engineer Account</title>
+</head>
+<body>
+    <div id="main">
+        <form onsubmit="return validate();" action="/admin/verify-eng/{{_id}}" method="post">
+            <h2>Verify Engineer Account</h2>
+            <div id="errorDiv">{{error}}</div><br>
+            <p><span class="bold">Name:</span> {{f_name}} {{l_name}}</p>
+            <p><span class="bold">Phone Number: </span>{{phone}}</p>
+            <p><span class="bold">Email Address: </span>{{email}}</p>
+            <p><span class="bold">Contact Union: </span>{{union_info}}</p>
+            <br><br>
+            <p><span class="bold">Trade Union</span></p>
+            <input type="text" name="union" id="union" placeholder="Trade Union" value="{{union}}"><br><br>
+            <p><span class="bold">Trade</span></p>
+            <input type="text" name="trade" id="trade" value="{{inp_trade}}"><br><br>
+            <button type="submit" class="button">Verify Account</button>
+        </form>
+    </div>
+    <script>
+        function clearErr(){
+            setTimeout(()=>{
+                document.getElementById('errorDiv').textContent = '';
+            }, 5000);
+        }
+
+        function validate(){
+            var union = document.getElementById('union').value,
+            trade = document.getElementById('trade').value,
+            wsp = /^\s*$/;
+
+            if(wsp.test(union) || wsp.test(trade)){
+                document.getElementById('errorDiv').textContent = 'All fields are required';
+                clearErr();
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    </script>
+</body>
+</html>
